@@ -22,7 +22,7 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-export default function Register() {
+function Register() {
   const [isModalOpen, setIsModalOpen] = useState(false); // Stato per la modale
   const [successMessage, setSuccessMessage] = useState<string | null>(null); // Stato per il messaggio di successo
   const [isLoading, setIsLoading] = useState(false); // Stato di caricamento
@@ -90,7 +90,7 @@ export default function Register() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-red-500 via-yellow-400 to-blue-500 relative">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-red-500 via-black to-white relative">
       <div className="w-full max-w-4xl p-8 space-y-6 bg-white shadow-2xl rounded-lg">
         {isModalOpen && (
           // Modale di successo
@@ -121,61 +121,61 @@ export default function Register() {
         )}
 
         {/* Form di registrazione */}
-        <h2 className="text-3xl font-bold text-center text-yellow-600 mb-6">Registrazione Utente</h2>
+        <h2 className="text-3xl font-bold text-center text-black mb-6">Registrazione Utente</h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="flex flex-col md:flex-row md:space-x-6 mb-6">
             <div className="flex-1 space-y-4">
               <div className="form-control">
-                <label className="label text-yellow-600">
+                <label className="label">
                   <span className="label-text">Nome</span>
                 </label>
                 <input
                   type="text"
                   {...register("firstName")}
                   placeholder="Inserisci il tuo nome"
-                  className="input input-bordered input-primary w-full"
+                  className="input input-bordered w-full"
                 />
                 {errors.firstName && (
                   <span className="text-red-500 text-sm">{errors.firstName.message}</span>
                 )}
               </div>
               <div className="form-control">
-                <label className="label text-yellow-600">
+                <label className="label">
                   <span className="label-text">Cognome</span>
                 </label>
                 <input
                   type="text"
                   {...register("lastName")}
                   placeholder="Inserisci il tuo cognome"
-                  className="input input-bordered input-primary w-full"
+                  className="input input-bordered w-full"
                 />
                 {errors.lastName && (
                   <span className="text-red-500 text-sm">{errors.lastName.message}</span>
                 )}
               </div>
               <div className="form-control">
-                <label className="label text-yellow-600">
+                <label className="label">
                   <span className="label-text">Data di Nascita</span>
                 </label>
                 <input
                   type="date"
                   {...register("dateOfBirth")}
-                  className="input input-bordered input-primary w-full"
+                  className="input input-bordered w-full"
                 />
                 {errors.dateOfBirth && (
                   <span className="text-red-500 text-sm">{errors.dateOfBirth.message}</span>
                 )}
               </div>
               <div className="form-control">
-                <label className="label text-yellow-600">
+                <label className="label">
                   <span className="label-text">Nome Utente</span>
                 </label>
                 <input
                   type="text"
                   {...register("username")}
                   placeholder="Inserisci il tuo nome utente"
-                  className="input input-bordered input-primary w-full"
+                  className="input input-bordered w-full"
                 />
                 {errors.username && (
                   <span className="text-red-500 text-sm">{errors.username.message}</span>
@@ -184,42 +184,42 @@ export default function Register() {
             </div>
             <div className="flex-1 space-y-4">
               <div className="form-control">
-                <label className="label text-yellow-600">
+                <label className="label">
                   <span className="label-text">Email</span>
                 </label>
                 <input
                   type="email"
                   {...register("email")}
                   placeholder="Inserisci la tua email"
-                  className="input input-bordered input-primary w-full"
+                  className="input input-bordered w-full"
                 />
                 {errors.email && (
                   <span className="text-red-500 text-sm">{errors.email.message}</span>
                 )}
               </div>
               <div className="form-control">
-                <label className="label text-yellow-600">
+                <label className="label">
                   <span className="label-text">Password</span>
                 </label>
                 <input
                   type="password"
                   {...register("password")}
                   placeholder="Inserisci la tua password"
-                  className="input input-bordered input-primary w-full"
+                  className="input input-bordered w-full"
                 />
                 {errors.password && (
                   <span className="text-red-500 text-sm">{errors.password.message}</span>
                 )}
               </div>
               <div className="form-control">
-                <label className="label text-yellow-600">
+                <label className="label">
                   <span className="label-text">Conferma Password</span>
                 </label>
                 <input
                   type="password"
                   {...register("confirmPassword")}
                   placeholder="Conferma la tua password"
-                  className="input input-bordered input-primary w-full"
+                  className="input input-bordered w-full"
                 />
                 {errors.confirmPassword && (
                   <span className="text-red-500 text-sm">{errors.confirmPassword.message}</span>
@@ -231,7 +231,7 @@ export default function Register() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3 mt-4 bg-yellow-400 text-white font-semibold rounded-lg hover:bg-yellow-500 transition disabled:opacity-50"
+              className="w-full py-3 mt-4 bg-black text-white font-semibold rounded-lg hover:bg-gray-900 transition disabled:opacity-50"
             >
               {isLoading ? 'Registrazione in corso...' : 'Registrati'}
             </button>
@@ -251,3 +251,5 @@ export default function Register() {
     </div>
   );
 }
+
+export default Register;
