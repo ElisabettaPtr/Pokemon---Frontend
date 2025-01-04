@@ -14,12 +14,15 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
+    "jwt-decode": "^4.0.0",
     "lucide-react": "^0.469.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.54.1",
     "react-router-dom": "^7.0.2",
+    "react-tooltip": "^5.28.0",
     "shadcn-ui": "^0.9.4",
+    "sweetalert2": "^11.15.10",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.24.1"
@@ -38,7 +41,7 @@
     "globals": "^15.13.0",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.17",
-    "typescript": "~5.6.2",
+    "typescript": "^5.7.2",
     "typescript-eslint": "^8.18.1",
     "vite": "^6.0.3"
   }

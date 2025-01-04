@@ -80,11 +80,11 @@ const Navbar = () => {
             </div>
 
             {/* Barra di ricerca e icona account */}
-            <div className="hidden lg:flex items-center space-x-4">
+            <div className="lg:flex items-center space-x-4">
                 <input
                     type="text"
                     placeholder="Cerca..."
-                    className="input input-bordered w-48 h-8 rounded-full text-black placeholder-gray-500 text-sm"
+                    className="hidden lg:flex input input-bordered w-48 h-8 rounded-full text-black placeholder-gray-500 text-sm"
                 />
                 <div className="relative" ref={profileMenuRef}>
                     <button

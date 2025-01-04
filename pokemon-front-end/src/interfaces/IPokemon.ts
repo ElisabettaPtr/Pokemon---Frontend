@@ -1,30 +1,40 @@
-interface IPokemon {
+export interface IPokemon {
     nationalNumber: number;
     gen: string;
     englishName: string;
     primaryType: string;
-    secondaryType: string | null; // Può essere null se non esiste un secondo tipo
+    secondaryType: string | null;
     classification: string;
-    percentMale: number; // Assuming percentage as a decimal number (0 to 1 range)
-    percentFemale: number; // Same assumption as above
-    heightM: number; // In meters
-    weightKg: number; // In kilograms
-    captureRate: number; // Capture rate as a percentage (0 to 100)
+    percentMale: number;
+    percentFemale: number;
+    heightM: number;
+    weightKg: number;
+    captureRate: number;
     hp: number;
     attack: number;
     defense: number;
     speed: number;
     abilities0: string;
-    abilities1: string | null; // Second ability may be null
-    abilitiesSpecial: string | null; // Special abilities may be null
-    isSubLegendary: number; // 0 for false, 1 for true
-    isLegendary: number; // 0 for false, 1 for true
-    isMythical: number; // 0 for false, 1 for true
+    abilities1: string | null;
+    abilitiesSpecial: string | null;
+    isSubLegendary: number;
+    isLegendary: number;
+    isMythical: number;
     evoChain0: string;
-    evoChain2: string | null; // Evolution chain 2 may be null if it doesn't exist
-    evoChain4: string | null; // Evolution chain 4 may be null if it doesn't exist
-    megaEvolution: string | null; // Mega evolution may be null if not applicable
+    evoChain2: string | null;
+    evoChain4: string | null;
+    megaEvolution: string | null;
     description: string;
 }
 
-export default IPokemon;
+export interface IPokedex {
+idPokedex: number;
+idUser: number;
+nationalNumber: number;
+}
+
+export interface IWishlist {
+idWishlist: number;
+idUser: number;
+nationalNumber: number;
+}
