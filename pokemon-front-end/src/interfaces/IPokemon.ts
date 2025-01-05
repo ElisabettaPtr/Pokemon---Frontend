@@ -26,15 +26,3 @@ export interface IPokemon {
     megaEvolution: string | null;
     description: string;
 }
-
-export interface IPokedex {
-idPokedex: number;
-idUser: number;
-nationalNumber: number;
-}
-
-export interface IWishlist {
-idWishlist: number;
-idUser: number;
-nationalNumber: number;
-}

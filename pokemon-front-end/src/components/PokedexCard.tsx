@@ -1,24 +1,25 @@
-import { PlusCircle, Heart } from "lucide-react";
-import { Card } from "./ui/card";
-import { IPokemon } from "@/interfaces/IPokemon";
-import { useState } from "react";
-import { jwtDecode } from "jwt-decode";
-import Swal from "sweetalert2";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ArrowRightToLine, Trash2 } from "lucide-react";
+import Swal from "sweetalert2";
+import { Card } from "./ui/card";
+import { IPokedexData } from "@/interfaces/IPokedexData";
+import { jwtDecode } from "jwt-decode";
 
-const PokemonCard = ({
-    englishName,
-    nationalNumber,
-    primaryType,
-    secondaryType,
-}: IPokemon) => {
+interface PokedexCardProps {
+    pokemonData: IPokedexData;
+}
+
+const PokedexCard: React.FC<PokedexCardProps> = ({ pokemonData }) => {
     const [isHovered, setIsHovered] = useState(false);
-    const [isAddingToPokedex, setIsAddingToPokedex] = useState(false);
-    const [isAddingToWishlist, setIsAddingToWishlist] = useState(false);
+    const [isRemovingFromPokedex, setIsRemovingFromPokedex] = useState(false);
+    const [isMovingToWishlist, setIsMovingToWishlist] = useState(false);
     const navigate = useNavigate();
 
+    const { pokemon, idPokedex } = pokemonData;
+
     const handleCardClick = () => {
-        navigate(`/pokemon-detail/${nationalNumber}`);
+        navigate(`/pokemon-detail/${pokemon.nationalNumber}`);
     };
 
     const getAuthToken = () => {
@@ -39,10 +40,10 @@ const PokemonCard = ({
         return null;
     };
 
-    const handleAddToPokedex = async () => {
+    const handleRemoveFromPokedex = async () => {
         const result = await Swal.fire({
             title: "Sei sicuro?",
-            text: "Vuoi aggiungere questo Pokémon al tuo Pokedex?",
+            text: "Vuoi rimuovere questo Pokémon dal tuo Pokedex?",
             icon: "warning",
             showCancelButton: true,
             confirmButtonText: "Sì",
@@ -51,48 +52,37 @@ const PokemonCard = ({
 
         if (!result.isConfirmed) return;
 
-        setIsAddingToPokedex(true);
+        setIsRemovingFromPokedex(true);
 
-        const userId = getUserIdFromToken();
-        if (!userId) {
-            alert("Errore: Non autenticato");
-            setIsAddingToPokedex(false);
-            return;
-        }
-
-        const pokemonData = {
-            idUser: userId,
-            nationalNumber,
-        };
-
+        // Logica per rimuovere dal Pokedex
         try {
-            const response = await fetch("http://localhost:8000/api/v1/pokedex/add", {
-                method: "POST",
+            const response = await fetch(`http://localhost:8000/api/v1/pokedex/delete/${idPokedex}`, {
+                method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${getAuthToken()}`,
                 },
-                body: JSON.stringify(pokemonData),
+                body: JSON.stringify({ idPokedex }),
             });
 
             if (response.ok) {
-                Swal.fire("Successo!", "Pokémon aggiunto al Pokedex!", "success");
+                Swal.fire("Successo!", "Pokémon rimosso dal Pokedex!", "success");
             } else {
                 const error = await response.text();
                 Swal.fire("Errore", `Errore: ${error}`, "error");
             }
         } catch (error) {
-            console.error("Errore durante l'aggiunta al Pokedex:", error);
-            Swal.fire("Errore", "Errore durante l'aggiunta al Pokedex.", "error");
+            console.error("Errore durante la rimozione dal Pokedex:", error);
+            Swal.fire("Errore", "Errore durante la rimozione dal Pokedex.", "error");
         } finally {
-            setIsAddingToPokedex(false);
+            setIsRemovingFromPokedex(false);
         }
     };
 
-    const handleAddToWishlist = async () => {
+    const handleMoveToWishlist = async () => {
         const result = await Swal.fire({
             title: "Sei sicuro?",
-            text: "Vuoi aggiungere questo Pokémon alla tua Wishlist?",
+            text: "Vuoi spostare questo Pokémon nella tua Wishlist?",
             icon: "warning",
             showCancelButton: true,
             confirmButtonText: "Sì",
@@ -101,41 +91,58 @@ const PokemonCard = ({
 
         if (!result.isConfirmed) return;
 
-        setIsAddingToWishlist(true);
+        setIsMovingToWishlist(true);
+        
 
-        const userId = getUserIdFromToken();
-        if (!userId) {
-            alert("Errore: Non autenticato");
-            setIsAddingToWishlist(false);
-            return;
-        }
-
-        const pokemonData = {
-            idUser: userId,
-            nationalNumber,
-        };
-
+        // Logica per spostare nella Wishlist
         try {
-            const response = await fetch("http://localhost:8000/api/v1/wishlist/add", {
-                method: "POST",
+            const response = await fetch(`http://localhost:8000/api/v1/pokedex/delete/${idPokedex}`, {
+                method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${getAuthToken()}`,
                 },
-                body: JSON.stringify(pokemonData),
+                body: JSON.stringify({ idPokedex }),
             });
-
-            if (response.ok) {
-                Swal.fire("Successo!", "Pokémon aggiunto alla Wishlist!", "success");
-            } else {
-                const error = await response.text();
-                Swal.fire("Errore", `Errore: ${error}`, "error");
+            if(response.ok) {
+                const userId = getUserIdFromToken();
+                if (!userId) {
+                    alert("Errore: Non autenticato");
+                    setIsMovingToWishlist(false);
+                    return;
+                }
+        
+                const pokemonData = {
+                    idUser: userId,
+                    nationalNumber: pokemon.nationalNumber,
+                };
+        
+                try {
+                    const response = await fetch("http://localhost:8000/api/v1/wishlist/add", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${getAuthToken()}`,
+                        },
+                        body: JSON.stringify(pokemonData),
+                    });
+        
+                    if (response.ok) {
+                        Swal.fire("Successo!", "Pokémon spostato nella Wishlist!", "success");
+                    } else {
+                        const error = await response.text();
+                        Swal.fire("Errore", `Errore: ${error}`, "error");
+                    }
+                } catch (error) {
+                    console.error("Errore durante lo spostamento nella Wishlist:", error);
+                    Swal.fire("Errore", "Errore durante lo spostamento nella Wishlist.", "error");
+                } finally {
+                    setIsMovingToWishlist(false);
+                }
             }
         } catch (error) {
-            console.error("Errore durante l'aggiunta alla Wishlist:", error);
-            Swal.fire("Errore", "Errore durante l'aggiunta alla Wishlist.", "error");
-        } finally {
-            setIsAddingToWishlist(false);
+            console.error("Errore durante lo spostamento nella Wishlist:", error);
+            Swal.fire("Errore", "Errore durante lo spostamento nella Wishlist.", "error");
         }
     };
 
@@ -155,8 +162,8 @@ const PokemonCard = ({
                 {/* Immagine */}
                 <div className="w-full h-32 flex items-center justify-center mb-6">
                     <img
-                        src={`images/${englishName.toLowerCase().replace(" ", "")}.avif`}
-                        alt={englishName}
+                        src={`images/${pokemon.englishName.toLowerCase().replace(" ", "")}.avif`}
+                        alt={pokemon.englishName}
                         className="object-contain max-h-full"
                     />
                 </div>
@@ -173,12 +180,12 @@ const PokemonCard = ({
                                 "2px 0 #3b4cca, -2px 0 #3b4cca, 0 2px #3b4cca, 0 -2px #3b4cca, 1px 1px #3b4cca, -1px -1px #3b4cca, 1px -1px #3b4cca, -1px 1px #3b4cca",
                         }}
                     >
-                        {englishName}
+                        {pokemon.englishName}
                     </h2>
-                    <p className="text-lg text-red-500 font-semibold text-muted-foreground" style={{ fontFamily:'Unbounded, sans-serif' }}>#{nationalNumber}</p>
+                    <p className="text-lg text-red-500 font-semibold text-muted-foreground" style={{ fontFamily:'Unbounded, sans-serif' }}>#{pokemon.nationalNumber}</p>
                     <p className="text-xs font-normal text-muted-foreground" style={{ fontFamily:'Unbounded, sans-serif' }}>
-                        {primaryType}
-                        {secondaryType && `, ${secondaryType}`}
+                        {pokemon.primaryType}
+                        {pokemon.secondaryType && `, ${pokemon.secondaryType}`}
                     </p>
                 </div>
             </Card>
@@ -191,23 +198,23 @@ const PokemonCard = ({
             >
                 <button
                     className="w-12 h-12 rounded-full bg-white shadow-md border-2 border-gray-200 flex items-center justify-center hover:border-red-500 transition-all duration-300"
-                    title="Aggiungi al Pokedex"
-                    onClick={handleAddToPokedex}
-                    disabled={isAddingToPokedex}
+                    title="Rimuovi dal Pokedex"
+                    onClick={handleRemoveFromPokedex}
+                    disabled={isRemovingFromPokedex}
                 >
-                    <PlusCircle className="text-lg text-black" />
+                    <Trash2 className="text-lg text-black" />
                 </button>
                 <button
                     className="w-12 h-12 rounded-full bg-white shadow-md border-2 border-gray-200 flex items-center justify-center hover:border-red-500 transition-all duration-300"
-                    title="Aggiungi alla Wishlist"
-                    onClick={handleAddToWishlist}
-                    disabled={isAddingToWishlist}
+                    title="Sposta nella Wishlist"
+                    onClick={handleMoveToWishlist}
+                    disabled={isMovingToWishlist}
                 >
-                    <Heart className="text-lg text-black" />
+                    <ArrowRightToLine className="text-lg text-black" />
                 </button>
             </div>
         </div>
     );
 };
 
-export default PokemonCard;
+export default PokedexCard;
