@@ -25,20 +25,20 @@ const LandingPage = () => {
                     <h2 className="hidden md:block font-serif text-2xl" style={{
                         fontFamily: 'Lattolatoo, sans-serif',
                         fontWeight: "bolder",
-                        color: "white",
-                        textShadow: "2px 0 #ff0000, -2px 0 #ff0000, 0 2px #ff0000, 0 -2px #ff0000, 1px 1px #ff0000, -1px -1px #ff0000, 1px -1px #ff0000, -1px 1px #ff0000"
+                        color: "red",
+                        textShadow: "2px 0 #000000, -2px 0 #000000, 0 2px #000000, 0 -2px #000000, 1px 1px #000000, -1px -1px #000000, 1px -1px #000000, -1px 1px #000000"
                     }}>AGGIUNGI AL TUO POKÉDEX I POKÉMON CHE HAI GIÀ CATTURATO</h2>
                     <h2 className="hidden md:block font-serif text-2xl" style={{
                         fontFamily: 'Lattolatoo, sans-serif',
                         fontWeight: "bolder",
-                        color: "white",
-                        textShadow: "2px 0 #ff0000, -2px 0 #ff0000, 0 2px #ff0000, 0 -2px #ff0000, 1px 1px #ff0000, -1px -1px #ff0000, 1px -1px #ff0000, -1px 1px #ff0000"
+                        color: "red",
+                        textShadow: "2px 0 #000000, -2px 0 #000000, 0 2px #000000, 0 -2px #000000, 1px 1px #000000, -1px -1px #000000, 1px -1px #000000, -1px 1px #000000"
                     }}>I POKÉMON CHE INVECE DESIDERI CATTURARE , PUOI AGGIUNGERLI ALLA TUA WISHLIST !</h2>
-                    <a href="/login" className="btn btn-wide bg-white border-2 border-black text-xl rounded-full pt-4" style={{
+                    <a href="/login" className="btn btn-wide bg-white border-2 border-black text-2xl rounded-full pt-4" style={{
                         fontFamily: 'Lattolatoo, sans-serif',
                         fontWeight: "bolder",
-                        color: "white",
-                        textShadow: "2px 0 #000, -2px 0 #000, 0 2px #000, 0 -2px #000, 1px 1px #000, -1px -1px #000, 1px -1px #000, -1px 1px #000"
+                        color: "black",
+                        // textShadow: "2px 0 #000, -2px 0 #000, 0 2px #000, 0 -2px #000, 1px 1px #000, -1px -1px #000, 1px -1px #000, -1px 1px #000"
                     }}>INIZIA ORA !</a>
                 </div>
             </div>
