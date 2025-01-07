@@ -4,6 +4,12 @@
     - npm install
     - npm run dev 
 
+- ### Navigate to "/homepage" or directly to "/login"
+
+- ### Login:
+    - Username: trainer1
+    - Password: password
+
 # Project POKÉDEX
 
 ## Goals: 
@@ -103,3 +109,9 @@ ex. <Route path="/" element={</>}></Route>
 
 ### Layout
 - Contains Navbar and Outlet (contents of Outlet change based on routing)
+
+
+#### NICE TO HAVE
+
+- Update User
+- Searchbar
