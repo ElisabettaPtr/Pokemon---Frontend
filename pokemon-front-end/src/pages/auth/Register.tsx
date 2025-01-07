@@ -23,9 +23,9 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 function Register() {
-  const [isModalOpen, setIsModalOpen] = useState(false); // Stato per la modale
-  const [successMessage, setSuccessMessage] = useState<string | null>(null); // Stato per il messaggio di successo
-  const [isLoading, setIsLoading] = useState(false); // Stato di caricamento
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
@@ -35,7 +35,7 @@ function Register() {
   } = useForm<FormData>({ resolver: zodResolver(schema) });
 
   const onSubmit = async (data: FormData) => {
-    setIsLoading(true); // Avvia il loading
+    setIsLoading(true);
     const { confirmPassword, ...registrationData } = data;
 
     const createdAt = new Date().toISOString();
@@ -70,14 +70,14 @@ function Register() {
           alert(responseData.message);
         }
       } else {
-        setSuccessMessage("Registrazione avvenuta con successo!"); // Impostiamo il messaggio di successo
-        setIsModalOpen(true); // Apri la modale al successo
+        setSuccessMessage("Registrazione avvenuta con successo!");
+        setIsModalOpen(true);
       }
     } catch (error) {
       console.error('Error:', error);
       alert("Si è verificato un errore durante la registrazione.");
     } finally {
-      setIsLoading(false); // Ferma il loading
+      setIsLoading(false);
     }
   };
 
